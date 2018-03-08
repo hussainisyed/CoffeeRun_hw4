@@ -31,7 +31,7 @@
     });
   };
 
-  $('#payment').on('submit', function (event) {
+  $('#paymentstyles').on('submit', function (event) {
     event.preventDefault();
 
     var data = {};
@@ -39,11 +39,11 @@
       data[item.name] = item.value;
       console.log(item.name + ' is ' + item.value);
     });
-    console.log(data);
+    //console.log(data);
 
-    $('#paid').text('Thank you for your payment, ' + data.title + ' ' + data.username);
+    $('#payMsg').text('Thank you for your payment, ' + data.title + ' ' + data.username);
 
-    $('popup').modal({});
+    $('#popup').modal({});
 
     this.reset();
     this.elements[0].focus();
