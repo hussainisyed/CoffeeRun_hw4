@@ -21,36 +21,65 @@
   RemoteDataStore.prototype.add = function (key, val) {
     //This method sends a POST request in the background as an XMLHttpRequest object
     //requires the URL of the server to send the request to and what data to include.
-    //this.remove(key);
     $.post(this.serverUrl, val, function (serverResponse) {
       console.log(serverResponse);
     });
   };
 
   //retrieve all orders from the server
-  RemoteDataStore.prototype.getAll = function (cb) {
+  RemoteDataStore.prototype.getAll = function () {
     //pass it a function argument so that it knows what to do with the data when it comes back from the server
-    $.get(this.serverUrl, function (serverResponse) {
+    $.ajax(this.serverUrl, {
+      type: 'GET',
+      success: function(serverResponse) {
+        console.log(serverResponse);
+      },
+      error: function(serverResponse) {
+        console.log(serverResponse);
+      }
+    });
+    //code before update
+    /*$.get(this.serverUrl, function (serverResponse) {
       console.log(serverResponse);
       cb(serverResponse);
-    });
+    });*/
   };
 
-  RemoteDataStore.prototype.get = function (key, cb) {
-    //'?emailAddress='
-    $.get(this.serverUrl + '/' + key, function (serverResponse) {
+  RemoteDataStore.prototype.get = function (key) {
+    $.ajax({
+      url: this.serverUrl + '?emailAddress' + key,
+      type: 'GET',
+      success: function(serverResponse) {
+        console.log(serverResponse);
+      },
+      error: function(serverResponse) {
+        console.log(serverResponse);
+      }
+    });
+    //code before update
+    /*$.get(this.serverUrl + '/' + key, function (serverResponse) {
       console.log(serverResponse);
       cb(serverResponse);
-    });
+    });*/
   };
 
   RemoteDataStore.prototype.remove = function (key) {
-    //<--this.get(key, (function(response)) {
-    //key --> response.id 
-    $.ajax(this.serverUrl + '/' + key, {
-      type: 'DELETE' //,
+    var tempUrl = this.serverUrl;
+
+    $.ajax({
+      url: this.serverUrl + '?emailAddress' + key,
+      type: 'GET',
+      success: function(serverResponse) {
+        console.log(serverResponse);
+        $.ajax({
+          url: tempUrl + '/' + $(serverResponse).attr('id'),
+          type: 'DELETE'
+        });
+      },
+      error: function(serverResponse) {
+        console.log(serverResponse);
+      }
     });
-    //}).bind(this));
   };
 
   App.RemoteDataStore = RemoteDataStore;
