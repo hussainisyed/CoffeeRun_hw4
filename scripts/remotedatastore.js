@@ -27,40 +27,19 @@
   };
 
   //retrieve all orders from the server
-  RemoteDataStore.prototype.getAll = function () {
+  RemoteDataStore.prototype.getAll = function (cb) {
     //pass it a function argument so that it knows what to do with the data when it comes back from the server
-    $.ajax(this.serverUrl, {
-      type: 'GET',
-      success: function(serverResponse) {
-        console.log(serverResponse);
-      },
-      error: function(serverResponse) {
-        console.log(serverResponse);
-      }
-    });
-    //code before update
-    /*$.get(this.serverUrl, function (serverResponse) {
+    $.get(this.serverUrl, function(serverResponse) {
       console.log(serverResponse);
       cb(serverResponse);
-    });*/
+    });
   };
 
-  RemoteDataStore.prototype.get = function (key) {
-    $.ajax({
-      url: this.serverUrl + '?emailAddress' + key,
-      type: 'GET',
-      success: function(serverResponse) {
-        console.log(serverResponse);
-      },
-      error: function(serverResponse) {
-        console.log(serverResponse);
-      }
-    });
-    //code before update
-    /*$.get(this.serverUrl + '/' + key, function (serverResponse) {
+  RemoteDataStore.prototype.get = function (key, cb) {
+    $.get(this.serverUrl + '/' + key, function (serverResponse) {
       console.log(serverResponse);
       cb(serverResponse);
-    });*/
+    });
   };
 
   RemoteDataStore.prototype.remove = function (key) {

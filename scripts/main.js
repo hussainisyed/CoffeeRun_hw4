@@ -23,12 +23,19 @@
     window.location.replace('payment.html');
   });
 
+  remoteDS.getAll(function(data) {
+    for(var i = 0; i < data.length; i++) {
+      checkList.addRow(data[i]);
+    } 
+  });
+
   formHandler.addSubmitHandler(function (data) {
     myTruck.createOrder.call(myTruck, data);
     checkList.addRow.call(checkList, data);
   });
   //Validation object imported, now can connect it to FormHandler’s new addInputHandler method
   formHandler.addInputHandler(Validation.isCompanyEmail);
+
 
   console.log(formHandler);
 })(window);
